@@ -23,7 +23,7 @@ app.post('/createPayment', async (req, res) => {
     // Tạo checksum
     const checksum = createChecksum(amount, currency);
 
-    // Payload gửi tới PayOS
+    // Payload gửi tới PayOS với URL mới
     const payload = {
         clientId,
         apiKey,
@@ -34,8 +34,8 @@ app.post('/createPayment', async (req, res) => {
     };
 
     try {
-        // Gọi API của PayOS để tạo đơn hàng
-        const response = await axios.post('https://api.payos.io/v1/createOrder', payload);
+        // Gọi API của PayOS để tạo đơn hàng với URL mới
+        const response = await axios.post('https://api-merchant.payos.vn/v2/payment-requests', payload);
         if (response.data && response.data.paymentUrl) {
             res.json({ paymentUrl: response.data.paymentUrl });
         } else {
