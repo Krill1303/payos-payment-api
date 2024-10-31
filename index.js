@@ -6,9 +6,11 @@ const app = express();
 app.use(express.json());
 
 // Lấy các thông tin PayOS từ biến môi trường
-const clientId = process.env.PAYOS_CLIENT_ID;
 const apiKey = process.env.PAYOS_API_KEY;
 const checksumKey = process.env.PAYOS_CHECKSUM_KEY;
+const clientId = process.env.PAYOS_CLIENT_ID;
+
+
 
 // Hàm tạo checksum để bảo mật yêu cầu
 function createChecksum(amount, currency) {
