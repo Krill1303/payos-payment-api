@@ -25,25 +25,35 @@ app.post('/createPayment', async (req, res) => {
 
     // Payload gửi tới PayOS với URL mới
     const payload = {
-        clientId,       // đảm bảo đúng với tên trường PayOS yêu cầu
-        apiKey,         // đảm bảo đúng với tên trường PayOS yêu cầu
+        clientId,       // Đảm bảo tên trường này đúng với yêu cầu của PayOS
+        apiKey,         // Đảm bảo tên trường này đúng với yêu cầu của PayOS
         amount,
         currency,
         orderInfo,
         checksum
     };
     
+    // Log payload và checksum để xác minh
+    console.log("Payload sent to PayOS:", payload);
 
     try {
         // Gọi API của PayOS để tạo đơn hàng với URL mới
         const response = await axios.post('https://api-merchant.payos.vn/v2/payment-requests', payload);
+        
+        // Log phản hồi từ API PayOS
+        console.log("Response from PayOS:", response.data);
+
         if (response.data && response.data.paymentUrl) {
             res.json({ paymentUrl: response.data.paymentUrl });
         } else {
+            console.error("Failed to get payment URL from PayOS:", response.data); // Log chi tiết nếu không nhận được URL
             res.status(500).json({ error: "Failed to get payment URL from PayOS." });
         }
     } catch (error) {
         console.error("Error creating payment:", error.message);
+        if (error.response) {
+            console.error("Error response from PayOS:", error.response.data); // Log chi tiết lỗi từ PayOS
+        }
         res.status(500).json({ error: error.message });
     }
 });
