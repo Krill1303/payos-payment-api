@@ -25,13 +25,14 @@ app.post('/createPayment', async (req, res) => {
 
     // Payload gửi tới PayOS với URL mới
     const payload = {
-        clientId,
-        apiKey,
+        clientId,       // đảm bảo đúng với tên trường PayOS yêu cầu
+        apiKey,         // đảm bảo đúng với tên trường PayOS yêu cầu
         amount,
         currency,
         orderInfo,
         checksum
     };
+    
 
     try {
         // Gọi API của PayOS để tạo đơn hàng với URL mới
