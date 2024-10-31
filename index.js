@@ -12,6 +12,7 @@ const checksumKey = process.env.PAYOS_CHECKSUM_KEY;
 
 // Hàm tạo checksum để bảo mật yêu cầu
 function createChecksum(amount, currency) {
+    // Xác nhận lại thứ tự các trường trong checksumString
     const checksumString = clientId + apiKey + amount + currency + checksumKey;
     return crypto.createHash('sha256').update(checksumString).digest('hex');
 }
@@ -25,22 +26,22 @@ app.post('/createPayment', async (req, res) => {
 
     // Payload gửi tới PayOS với URL mới
     const payload = {
-        apiKey,         // `apiKey` trước tiên, theo yêu cầu của PayOS
-        checksum,       // Sau đó đến `checksum`
-        clientId,       // Cuối cùng là `clientId`
+        clientId,  
+        apiKey,       
+        checksum,       
         amount,
         currency,
         orderInfo
     };
-    
-    
+
     // Log payload và checksum để xác minh
     console.log("Payload sent to PayOS:", payload);
+    console.log("Checksum:", checksum);
 
     try {
         // Gọi API của PayOS để tạo đơn hàng với URL mới
         const response = await axios.post('https://api-merchant.payos.vn/v2/payment-requests', payload);
-        
+
         // Log phản hồi từ API PayOS
         console.log("Response from PayOS:", response.data);
 
