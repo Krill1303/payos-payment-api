@@ -25,13 +25,14 @@ app.post('/createPayment', async (req, res) => {
 
     // Payload gửi tới PayOS với URL mới
     const payload = {
-        clientId,       // Đảm bảo tên trường này đúng với yêu cầu của PayOS
-        apiKey,         // Đảm bảo tên trường này đúng với yêu cầu của PayOS
+        apiKey,         // `apiKey` trước tiên, theo yêu cầu của PayOS
+        checksum,       // Sau đó đến `checksum`
+        clientId,       // Cuối cùng là `clientId`
         amount,
         currency,
-        orderInfo,
-        checksum
+        orderInfo
     };
+    
     
     // Log payload và checksum để xác minh
     console.log("Payload sent to PayOS:", payload);
